@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.Hello.exception.CloudVendorNotFoundException;
 import com.example.Hello.model.CoudVendor;
 import com.example.Hello.repository.CloudVendorRepository;
 import com.example.Hello.service.CloudVendorService;
@@ -42,6 +43,8 @@ public class CloudVendorServiceImpl implements CloudVendorService {
 	@Override
 	public CoudVendor getCloudVendor(String cloudVendorId) {
 		// TODO Auto-generated method stub
+		if (cloudVendorRepository.findById(cloudVendorId).isEmpty())
+			throw new CloudVendorNotFoundException("Cloud Venodr does not exist");
 		return cloudVendorRepository.findById(cloudVendorId).get();
 	}
 
