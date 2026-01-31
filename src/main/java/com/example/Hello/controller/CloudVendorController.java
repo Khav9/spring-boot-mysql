@@ -2,6 +2,9 @@ package com.example.Hello.controller;
 
 import java.util.List;
 
+import com.example.Hello.response.ResponeHandler;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,16 +29,25 @@ public class CloudVendorController {
 	}
 
 	@GetMapping("/{vendorId}")
-	public CoudVendor getCloudVendorDetails(@PathVariable("vendorId") String vendorId) {
-		return cloudVendorService.getCloudVendor(vendorId);
+	public ResponseEntity<Object> getCloudVendorDetails(@PathVariable("vendorId") String vendorId) {
+        return ResponeHandler.responseBuilder("Requested vendor details are given here", HttpStatus.OK, cloudVendorService.getCloudVendor(vendorId));
 	}
 	
-	@GetMapping()
-	public List<CoudVendor> getAllCloudVendorDetails() {
-		return cloudVendorService.getAllCloudVendors();
-	}
-	
-	@PostMapping
+//	@GetMapping()
+//	public List<CoudVendor> getAllCloudVendorDetails() {
+//		return cloudVendorService.getAllCloudVendors();
+//	}
+
+    @GetMapping
+    public ResponseEntity<Object> getAllCloudVendorDetails() {
+        return ResponeHandler.responseBuilder(
+                "All cloud vendor details are given here",
+                HttpStatus.OK,
+                cloudVendorService.getAllCloudVendors()
+        );
+    }
+
+    @PostMapping
 	public String createCoudVendorDetails(@RequestBody CoudVendor cloudVendor) {
 		cloudVendorService.createCloudVendor(cloudVendor);
 		return "Cloud Vendor created successfully";
